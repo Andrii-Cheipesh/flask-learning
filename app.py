@@ -29,6 +29,8 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = NameFormTest()
+    form.user_email.label = 'Email:'
+    form.password.label = 'Password:'
     return render_template('authpage.html', form=form)
 
 
