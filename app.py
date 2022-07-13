@@ -22,12 +22,14 @@ def user(name):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    user_email = None
     form = NameFormTest()
-    if form.validate_on_submit():
-        user_email = form.user_email.data
-        form.user_email.data = ''
-    return render_template('register.html', form=form, user_email=user_email)
+    return render_template('authpage.html', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = NameFormTest()
+    return render_template('authpage.html', form=form)
 
 
 if __name__ == __name__:

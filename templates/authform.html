@@ -1,0 +1,14 @@
+<div class="container shadow-lg p-3 mb-5 bg-body rounded border" style="width: 35%;">
+    <form method="POST" style="color:#2F4F4F">
+        {{ form.hidden_tag() }}
+        <div class="form-group position-relative">
+            {{ form.user_email.label }}
+            {{ form.user_email(class_="form-control", placeholder="Enter email", id="exampleFormControlTextarea1") }}
+            {{ form.password.label }}
+            {{ form.password(class="form-control", id="exampleInputPassword1", placeholder="Password") }}<br>
+            {{ form.submit(class_="btn btn-dark border-secondary me-md-2") }}
+            {% if request.endpoint == 'login' %}<a href="###" class="btn btn-outline-dark border-secondary position-absolute bottom-0 end-0" role="button">Forgot a password?</a>{% else %}{% endif %}
+        </div>
+    </form>
+
+</div>
