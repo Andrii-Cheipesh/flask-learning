@@ -2,12 +2,12 @@ from flask import Flask, render_template
 from flask_moment import Moment
 from datetime import datetime
 
-from forms import NameFormTest
+from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
 moment = Moment(app)
 
-app.config['SECRET_KEY'] = 'implement-os-module-here'
+app.config['SECRET_KEY'] = 'test_secret'
 
 
 @app.route('/')
@@ -22,15 +22,13 @@ def user(name):
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = NameFormTest()
+    form = RegistrationForm()
     return render_template('authpage.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = NameFormTest()
-    form.user_email.label = 'Email:'
-    form.password.label = 'Password:'
+    form = LoginForm()
     return render_template('authpage.html', form=form)
 
 
