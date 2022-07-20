@@ -1,0 +1,6 @@
+flask
+flask-moment
+flask-wtf
+wtforms
+flask-sqlalchemy
+email-validator
