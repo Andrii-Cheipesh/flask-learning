@@ -1,0 +1,53 @@
+<div class="container shadow-lg p-3 mb-5 bg-body rounded border" style="width: 35%;">
+    <form method="POST" style="color:#2F4F4F">
+        {{ form.hidden_tag() }}
+        <div class="form-group position-relative">
+            {% if request.endpoint == 'register' %}
+            {{ form.name.label }}
+            {{ form.name(class_="form-control", placeholder="Enter your name", id="exampleFormControlTextarea1") }}
+            {% endif %}
+            {{ form.user_email.label }}
+            {{ form.user_email(class_="form-control", placeholder="Enter email", id="exampleFormControlTextarea1") }}
+            {{ form.password.label }}
+            {{ form.password(class="form-control", id="exampleInputPassword1", placeholder="Password") }}
+
+            {% if request.endpoint == 'login' %}
+            <a href="###" class="btn btn-outline-dark border-secondary position-absolute bottom-0 end-0" role="button">Forgot a password?</a>
+
+            {% else %}
+            <div class="form-group position-relative">
+
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="control-label " for="date">
+                            Birthday:
+                        </label>
+                        {{ form.birthday_date(class="form-control", id="date", placeholder="Day/Month/Year", type="text", autocomplete="off") }}
+                    </div>
+                </div>
+
+                <div class="position-absolute bottom-0 end-0">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        {% for subfield in form.sex %}
+
+                        {% if subfield.id.endswith('0') %}
+                            {{ subfield(class="btn-check", id="btnradio1", autocomplete="off") }}
+                            {{ subfield.label(class="btn btn-outline-secondary", for="btnradio1") }}
+                        {% endif %}
+
+                        {% if subfield.id.endswith('1') %}
+                            {{ subfield(class="btn-check", id="btnradio3", autocomplete="off") }}
+                            {{ subfield.label(class="btn btn-outline-secondary border-secondary", for="btnradio3") }}
+                        {% endif %}
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}<br>
+
+            {{ form.submit(class_="btn btn-dark border-secondary me-md-2") }}
+        </div>
+    </form>
+</div>
