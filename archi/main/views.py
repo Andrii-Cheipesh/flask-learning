@@ -14,7 +14,6 @@ def index():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        birth = form.birthday_date.data.strftime("%d/%m/%Y")
         reg_date = datetime.date.today()
         user = User(name=form.name.data, user_email=form.user_email.data, password=form.password.data,
                     birth_date=form.birthday_date.data, sex=form.sex.data, reg_date=reg_date, role_id='2')
