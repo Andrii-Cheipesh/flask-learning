@@ -14,9 +14,14 @@ def index():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        reg_date = datetime.date.today()
-        user = User(name=form.name.data, user_email=form.user_email.data, password=form.password.data,
-                    birth_date=form.birthday_date.data, sex=form.sex.data, reg_date=reg_date, role_id='2')
+        reg_date = datetime.datetime.now()
+        user = User(name=form.name.data,
+                    user_email=form.user_email.data,
+                    password=form.password.data,
+                    birth_date=form.birthday_date.data,
+                    sex=form.sex.data,
+                    reg_date=reg_date,
+                    role_id='2')
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('login'))
