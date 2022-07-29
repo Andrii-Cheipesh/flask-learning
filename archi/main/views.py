@@ -54,7 +54,7 @@ def login():
         if user and user.verify_password(user_password):
             session['user_id'] = user.id
             redirect(url_for('login'))
-            return redirect(url_for('login'))
+            return redirect(url_for('index'))
         flash('Incorrect email or password.')
     return render_template('authpage.html', form=form)
 
