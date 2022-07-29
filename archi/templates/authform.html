@@ -1,6 +1,15 @@
 <div class="container shadow-lg p-3 mb-5 bg-body rounded border" style="width: 35%;">
     <form method="POST" style="color:#2F4F4F">
         {{ form.hidden_tag() }}
+        <div class="container">
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Wow!</strong> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+
         <div class="form-group position-relative">
             {% if request.endpoint == 'register' %}
             {{ form.name.label }}
