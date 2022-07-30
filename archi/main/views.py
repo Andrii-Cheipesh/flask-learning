@@ -36,11 +36,13 @@ def index():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User()
-        form.populate_obj(user)
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for('login'))
+        if not User.get_user_by_name(form.name.data) and not User.get_user_by_email(form.user_email.data):
+            user = User()
+            form.populate_obj(user)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('login'))
+        flash('User with this email or name already exists!')
     return render_template('authpage.html', form=form)
 
 
@@ -50,7 +52,7 @@ def login():
     if form.validate_on_submit():
         user_email = form.user_email.data
         user_password = form.password.data
-        user = User.query.filter_by(user_email=user_email).first()
+        user = User.get_user_by_email(user_email)
         if user and user.verify_password(user_password):
             session['user_id'] = user.id
             redirect(url_for('login'))
