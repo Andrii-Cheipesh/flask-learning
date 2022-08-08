@@ -27,6 +27,14 @@ class User(db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    @classmethod
+    def get_user_by_name(cls, username):
+        return cls.query.filter_by(name=username).first()
+
+    @classmethod
+    def get_user_by_email(cls, user_email):
+        return cls.query.filter_by(user_email=user_email).first()
+
 
 class Role(db.Model):
     __tablename__ = 'roles'

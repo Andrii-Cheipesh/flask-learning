@@ -12,12 +12,22 @@
         <li class="nav-item">
           <a class="nav-link" href={{ url_for('register') }}>Register</a>
         </li>
+        {% if g.user == None %}
         <li class="nav-item">
           <a class="nav-link" href={{ url_for('login') }}>Login</a>
         </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href={{ url_for('logout') }}>Logout</a>
+        </li>
+        {% endif %}
       </ul>
       <span class="navbar-text">
-      Made some design
+        {% if g.user == None %}
+         Made some design
+        {% else %}
+        Hi, {{ g.user.name }}.
+        {% endif %}
     </span>
     </div>
   </div>
