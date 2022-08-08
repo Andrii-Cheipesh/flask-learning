@@ -41,7 +41,9 @@ def register():
             form.populate_obj(user)
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('login'))
+            user = User.get_user_by_email(form.user_email.data)
+            session['user_id'] = user.id
+            return redirect(url_for('index'))
         flash('User with this email or name already exists!')
     return render_template('authpage.html', form=form)
 
@@ -55,7 +57,6 @@ def login():
         user = User.get_user_by_email(user_email)
         if user and user.verify_password(user_password):
             session['user_id'] = user.id
-            redirect(url_for('login'))
             return redirect(url_for('index'))
         flash('Incorrect email or password.')
     return render_template('authpage.html', form=form)

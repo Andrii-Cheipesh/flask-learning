@@ -21,7 +21,7 @@ class RegistrationForm(FlaskForm):
                                                 max=12,
                                                 message='Password must be from 8 to 12 characters.')])
     birthday_date = DateField('Your birthday:', format='%d/%m/%Y')
-    sex = RadioField('Sex:', choices=[('man', 'man'), ('woman', 'woman')])
+    sex = RadioField('Sex:', choices=[('male', 'male'), ('female', 'female')])
     submit = SubmitField('Submit')
 
 
