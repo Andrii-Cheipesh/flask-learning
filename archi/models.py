@@ -15,6 +15,7 @@ class User(db.Model):
     sex = db.Column(db.String(32))
     reg_date = db.Column(db.DateTime, default=datetime.datetime.now)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), default=2)
+    projects = db.relationship('Project', backref='user')
 
     @property
     def password(self):
@@ -41,3 +42,30 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(32))
     users = db.relationship('User', backref='role')
+
+
+class Project(db.Model):
+    __tablename__ = 'project'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    name = db.Column(db.String(32))
+    isapproved = db.Column(db.Boolean, default=False)
+    category = db.Column(db.String(32), default='NonCommercial')
+    price = db.Column(db.Integer)
+    payments = db.Column(db.Integer, default=0)
+    doc_property_rights = db.Column(db.Boolean, default=False)
+    doc_passport = db.Column(db.Boolean, default=False)
+    doc_cadaster = db.Column(db.Boolean, default=False)
+    status = db.Column(db.String(32))
+    user_comment = db.Column(db.String(256))
+
+    # some date column
+
+    @classmethod
+    def get_by_name(cls, name):
+        return cls.query.filter_by(name=name).first()
+
+    def is_admin_created(self):
+        user = User.query.filter_by(id=self.user_id).first()
+        if user.role_id == 1:
+            return True

@@ -46,3 +46,13 @@ opacity: 0.8;
     color: white;
     background-color: #E9DAC1;
 }
+
+.accordion-button:not(.collapsed) {
+    color: inherit;
+    background: #E9DAC1;
+    color: black;
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.2rem rgba(79, 194, 181, 0.43);
+}

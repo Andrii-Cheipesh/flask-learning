@@ -9,6 +9,9 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href={{ url_for('index') }}>Home</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href=###>Contact Us</a>
+        </li>
         {% if g.user == None %}
         <li class="nav-item">
           <a class="nav-link" href={{ url_for('register') }}>Register</a>
@@ -18,7 +21,7 @@
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link" href=###>Contact Us</a>
+          <a class="nav-link" href={{ url_for('add_project') }}>New project order!</a>
         </li>
         {% endif %}
       </ul>
@@ -36,9 +39,8 @@
           My account
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <li><a class="dropdown-item" href="#">My Profile</a></li>
+          <li><a class="dropdown-item" href={{ url_for('projects') }}>My Projects</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href={{ url_for('logout') }}>Logout</a></li>
         </ul>
