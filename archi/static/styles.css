@@ -1,0 +1,48 @@
+html, body {
+min-height: 100%;
+}
+
+.ultradark {
+background-color: #54BAB9
+}
+
+.basebackgroundcolor {
+background-color: #F7ECDE
+}
+
+.formcolor {
+background-color: #9ED2C6
+}
+
+.form-control {
+border-color: #D3D3D3;
+}
+
+.form-control:focus {
+border-color: #3AAFA9;
+box-shadow: red; -webkit-box-shadow: none;
+}
+
+.bordergray {
+border-color: #D3D3D3;
+}
+
+.carousel-item img {
+object-fit: contain;
+object-position: center;
+overflow: hidden;
+height: 75vh;
+opacity: 0.8;
+}
+
+.dropdown a:hover {
+
+    color: white;
+    background-color: #E9DAC1;
+
+}
+
+.btn-outline-light:hover {
+    color: white;
+    background-color: #E9DAC1;
+}

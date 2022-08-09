@@ -1,5 +1,5 @@
-<div class="container shadow-lg p-3 mb-5 bg-body rounded border" style="width: 35%;">
-    <form method="POST" style="color:#2F4F4F">
+<div class="container">
+    <form method="POST">
         {{ form.hidden_tag() }}
         <div class="container">
             {% for message in get_flashed_messages() %}
@@ -10,53 +10,79 @@
             {% endfor %}
         </div>
 
-        <div class="form-group position-relative">
-            {% if request.endpoint == 'register' %}
-            {{ form.name.label }}
-            {{ form.name(class_="form-control", placeholder="Enter your name", id="exampleFormControlTextarea1") }}
-            {% endif %}
-            {{ form.user_email.label }}
-            {{ form.user_email(class_="form-control", placeholder="Enter email", id="exampleFormControlTextarea1") }}
-            {{ form.password.label }}
-            {{ form.password(class="form-control", id="exampleInputPassword1", placeholder="Password") }}
+            <div class="container formcolor shadow-lg rounded-1 px-4 py-2">
 
-            {% if request.endpoint == 'login' %}
-            <a href="###" class="btn btn-outline-dark border-secondary position-absolute bottom-0 end-0" role="button">Forgot a password?</a>
+                {% if request.endpoint == 'register' %}
+                <div class="row">
+                    <div class="col-sm">
+                        {{ form.name.label }}
+                        {{ form.name(class_="form-control", placeholder="Enter your name") }}
+                    </div>
+                </div>
+                {% endif %}
 
-            {% else %}
-            <div class="form-group position-relative">
+                <div class="row">
+                    <div class="col-sm">
+                        {{ form.user_email.label }}
+                        {{ form.user_email(class_="form-control", placeholder="Enter email") }}
+                    </div>
+                </div>
 
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                        <label class="control-label " for="date">
+                <div class="row">
+                    <div class="col-sm">
+                        {{ form.password.label }}
+                        {{ form.password(class="form-control", placeholder="Password") }}
+                    </div>
+                </div>
+
+                {% if request.endpoint == 'login' %}
+
+                <div class="row pt-2 align-items-center justify-content-between">
+                    <div class="col-auto">
+                        <a href="###" class="btn btn-outline-dark bordergray" style="color: white">Forgot a password?</a>
+                    </div>
+                    <div class="col-auto">
+                        {{ form.submit(class_="btn btn-dark ultradark border-secondary my-2") }}
+                    </div>
+                </div>
+
+                {% else %}
+
+                <div class="row align-items-end justify-content-between">
+                    <div class="col-auto">
+                        <label class="control-label" for="date">
                             Birthday:
                         </label>
                         {{ form.birthday_date(class="form-control", id="date", placeholder="Day/Month/Year", type="text", autocomplete="off") }}
                     </div>
-                </div>
+                    <div class="col-auto">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            {% for subfield in form.sex %}
 
-                <div class="position-absolute bottom-0 end-0">
-                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                        {% for subfield in form.sex %}
+                            {% if subfield.id.endswith('0') %}
+                                {{ subfield(class="btn-check", id="btnradio1", autocomplete="off") }}
+                                {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio1", style="color: white") }}
+                            {% endif %}
 
-                        {% if subfield.id.endswith('0') %}
-                            {{ subfield(class="btn-check", id="btnradio1", autocomplete="off") }}
-                            {{ subfield.label(class="btn btn-outline-secondary", for="btnradio1") }}
-                        {% endif %}
+                            {% if subfield.id.endswith('1') %}
+                                {{ subfield(class="btn-check", id="btnradio3", autocomplete="off") }}
+                                {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio3", style="color: white") }}
+                            {% endif %}
 
-                        {% if subfield.id.endswith('1') %}
-                            {{ subfield(class="btn-check", id="btnradio3", autocomplete="off") }}
-                            {{ subfield.label(class="btn btn-outline-secondary border-secondary", for="btnradio3") }}
-                        {% endif %}
-
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
+
+                <div class="row justify-content-end">
+                    <div class="col">
+                        {{ form.submit(class_="w-100 btn btn-dark ultradark border-secondary mb-2 mt-4") }}
+                    </div>
+                </div>
+
+                {% endif %}
+
             </div>
-
-            {% endif %}<br>
-
-            {{ form.submit(class_="btn btn-dark border-secondary me-md-2") }}
         </div>
     </form>
 </div>

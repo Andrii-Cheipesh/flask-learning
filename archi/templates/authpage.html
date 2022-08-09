@@ -4,9 +4,14 @@
 
 {% block body %}
 
-<h1 style="text-align:center; color:#2F4F4F">Hi, Stranger.</h1>
-
-{% include "authform.html" %}
+<div class="container-fluid" style="height: 93%">
+    <div class="row align-items-center justify-content-center pb-5" style="height: 100%">
+        <div class="col-6 col-sm-6 col-md-4">
+            <h1 style="text-align:center; color:#2F4F4F">Hi, Stranger.</h1>
+            {% include "authform.html" %}
+        </div>
+    </div>
+</div>
 
 {% if request.endpoint == 'register' %}
 

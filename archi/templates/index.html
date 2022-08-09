@@ -3,8 +3,25 @@
 {% block title %}Home page{% endblock %}
 
 {% block body %}
-<section id="home-greetings">
-    <h1 style="margin-left: 5px; color:#2F4F4F">Home page</h1>
-    <p style="margin-left: 5px; color:#2F4F4F">Some text, explaining what the site is.</p>
-</section>
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src={{ url_for('static', filename='pictures/slide1.jpg')}} class="d-block w-100" alt="Slide1">
+    </div>
+    <div class="carousel-item">
+      <img src={{ url_for('static', filename='pictures/slide2.jpg')}} class="d-block w-100" alt="Slide2">
+    </div>
+    <div class="carousel-item">
+      <img src={{ url_for('static', filename='pictures/slide3.jpg')}} class="d-block w-100" alt="Slide3">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
 {% endblock %}
