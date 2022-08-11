@@ -2,8 +2,8 @@ import functools
 
 from flask import render_template, redirect, url_for, g, session, flash
 from flask import current_app as app
-from archi.main.forms import RegistrationForm, LoginForm, ProjectForm
-from ..models import User, Role, Project, db
+from archi.main.forms import RegistrationForm, LoginForm, ProjectForm, EditProjectForm
+from ..models import User, Project, Role, db
 
 
 def login_required(view):
@@ -70,20 +70,51 @@ def logout():
 @app.route('/projects')
 @login_required
 def projects():
-    project = Project.get_by_name(name='adminproject')
-    if project.is_admin_created():
-        project_name = project.name
-        user_name = project.user.user_email
-        return render_template('projects.html', project_name=project_name, user_name=user_name)
-    return redirect(url_for('index'))
+    if g.user.role.name == 'user':
+        projects = g.user.ordered_projects
+    else:
+        projects = g.user.performed_projects
+
+    not_approved_list = [project for project in projects if project.status == 'NotApproved']
+    in_progress_list = [project for project in projects if project.status == 'InProgress']
+    finished_list = [project for project in projects if project.status == 'Finished']
+    rejected_list = [project for project in projects if project.status == 'Rejected']
+
+    return render_template('projects.html',
+                           not_approved_list=not_approved_list,
+                           in_progress_list=in_progress_list,
+                           finished_list=finished_list,
+                           rejected_list=rejected_list)
 
 
-@app.route('/project/add')
+@app.route('/project/add', methods=['GET', 'POST'])
 @login_required
 def add_project():
     form = ProjectForm()
     if form.validate_on_submit():
         if not Project.get_by_name(form.name.data):
-            # some logic for creating project
+            designer = User.get_user_by_name(name=form.designer_name.data)
+            project = Project(user_id=g.user.id, designer_id=designer.id)
+            form.populate_obj(project)
+            db.session.add(project)
+            db.session.commit()
             return redirect(url_for('projects'))
-    return render_template('addproject.html')
+        flash('This name of the project already exists.')
+    return render_template('add_project.html', form=form)
+
+
+@app.route('/project/edit/<int:project_id>', methods=['GET', 'POST'])
+@login_required
+def edit_project(project_id):
+    project_for_edit = Project.query.filter_by(id=project_id).first()
+    form = EditProjectForm(category=project_for_edit.category,
+                           name=project_for_edit.name,
+                           status=project_for_edit.status)
+    if project_for_edit.is_approved and g.user.role.name == 'user':
+        flash('This project has been approved, you cant edit it.')
+        return redirect(url_for('projects'))
+    if form.validate_on_submit():
+        form.populate_obj(project_for_edit)
+        db.session.commit()
+        return redirect(url_for('projects'))
+    return render_template('projectedit.html', form=form, project_for_edit=project_for_edit)

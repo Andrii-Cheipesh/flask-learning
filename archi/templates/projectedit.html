@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Creating a project{% endblock %}
+
+{% block body %}
+
+<div class="container" style="height: 95vh">
+    <div class="row py-3 justify-content-center" style="height: 100%">
+        <form class="col-10" method="POST">
+
+            {{ form.hidden_tag() }}
+
+            <div class="container">
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Wow!</strong> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="container formcolor shadow-lg rounded-1 px-4 py-2">
+
+                <div class="row my-1">
+                    <div class="col-sm">
+                        {{ form.name.label }}
+                        {{ form.name(class_="form-control", placeholder=project_for_edit.name) }}
+                    </div>
+                    <div class="col-sm">
+                        {{ form.category.label }}
+                        {{ form.category(class_="form-select", placeholder=project_for_edit.category) }}
+                    </div>
+                </div>
+                {% if g.user.role.name == 'admin' %}
+                <div class="row pt-3 justify-content-end">
+                        <div class="col-auto">
+                            {{ form.status.label }}
+                            {{ form.status(class_="form-select", placeholder="Status:") }}
+                        </div>
+                        <div class="col-auto">
+                            {{ form.is_approved.label }}
+                            {{ form.is_approved(class_="form-check m-1") }}
+                        </div>
+                </div>
+                {% endif %}
+
+
+                <div class="row">
+                    <div class="col-sm">
+                        {{ form.submit(class_="w-100 btn btn-dark ultradark border-secondary mb-2 mt-4") }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

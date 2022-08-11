@@ -15,7 +15,8 @@ class User(db.Model):
     sex = db.Column(db.String(32))
     reg_date = db.Column(db.DateTime, default=datetime.datetime.now)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), default=2)
-    projects = db.relationship('Project', backref='user')
+    ordered_projects = db.relationship("Project", foreign_keys='[Project.user_id]', back_populates='user')
+    performed_projects = db.relationship("Project", foreign_keys='[Project.designer_id]', back_populates='designer')
 
     @property
     def password(self):
@@ -29,8 +30,8 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
     @classmethod
-    def get_user_by_name(cls, username):
-        return cls.query.filter_by(name=username).first()
+    def get_user_by_name(cls, name):
+        return cls.query.filter_by(name=name).first()
 
     @classmethod
     def get_user_by_email(cls, user_email):
@@ -48,15 +49,19 @@ class Project(db.Model):
     __tablename__ = 'project'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    name = db.Column(db.String(32))
-    isapproved = db.Column(db.Boolean, default=False)
+    designer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship("User", foreign_keys="[Project.user_id]", back_populates='ordered_projects')
+    designer = db.relationship("User", foreign_keys="[Project.designer_id]", back_populates='performed_projects')
+
+    name = db.Column(db.String(32), unique=True)
+    is_approved = db.Column(db.Boolean, default=False)
     category = db.Column(db.String(32), default='NonCommercial')
-    price = db.Column(db.Integer)
+    price = db.Column(db.Integer, default=0)
     payments = db.Column(db.Integer, default=0)
     doc_property_rights = db.Column(db.Boolean, default=False)
     doc_passport = db.Column(db.Boolean, default=False)
     doc_cadaster = db.Column(db.Boolean, default=False)
-    status = db.Column(db.String(32))
+    status = db.Column(db.String(32), default='NotApproved')
     user_comment = db.Column(db.String(256))
 
     # some date column
@@ -64,8 +69,3 @@ class Project(db.Model):
     @classmethod
     def get_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
-
-    def is_admin_created(self):
-        user = User.query.filter_by(id=self.user_id).first()
-        if user.role_id == 1:
-            return True
