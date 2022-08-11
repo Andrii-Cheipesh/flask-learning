@@ -46,7 +46,10 @@
               <div class="col">
                 Is Approved by designer?
               </div>
-              <div class="col">
+              <div class="col-1">
+
+              </div>
+              <div class="col-1">
 
               </div>
 
@@ -77,8 +80,11 @@
                 <div class="col">
                   {{ project.is_approved }}
                 </div>
-                <div class="col text-end mt-1">
+                <div class="col-1 text-end mt-1">
                 <a class="btn btn-primary" href="{{ url_for('edit_project', project_id=project.id) }}">Edit</a>
+                </div>
+                <div class="col-1 text-end mt-1">
+                <a class="btn btn-danger" href="{{ url_for('delete_project', project_id=project.id) }}">Delete</a>
                 </div>
               </div>
             {% endfor %}
@@ -121,7 +127,10 @@
               <div class="col">
                 Is Approved by designer?
               </div>
-              <div class="col">
+              <div class="col-1">
+
+              </div>
+              <div class="col-1">
 
               </div>
 
@@ -152,8 +161,11 @@
                 <div class="col">
                   {{ project.is_approved }}
                 </div>
-                <div class="col text-end mt-1">
+                <div class="col-1 text-end mt-1">
                 <a class="btn btn-primary" href="{{ url_for('edit_project', project_id=project.id) }}">Edit</a>
+                </div>
+                <div class="col-1 text-end mt-1">
+                <a class="btn btn-danger" href="{{ url_for('delete_project', project_id=project.id) }}">Delete</a>
                 </div>
               </div>
             {% endfor %}
@@ -196,7 +208,10 @@
               <div class="col">
                 Is Approved by designer?
               </div>
-              <div class="col">
+              <div class="col-1">
+
+              </div>
+              <div class="col-1">
 
               </div>
 
@@ -227,8 +242,11 @@
                 <div class="col">
                   {{ project.is_approved }}
                 </div>
-                <div class="col text-end mt-1">
+                <div class="col-1 text-end mt-1">
                 <a class="btn btn-primary" href="{{ url_for('edit_project', project_id=project.id) }}">Edit</a>
+                </div>
+                <div class="col-1 text-end mt-1">
+                <a class="btn btn-danger" href="{{ url_for('delete_project', project_id=project.id) }}">Delete</a>
                 </div>
               </div>
             {% endfor %}
@@ -271,7 +289,10 @@
               <div class="col">
                 Is Approved by designer?
               </div>
-              <div class="col">
+              <div class="col-1">
+
+              </div>
+              <div class="col-1">
 
               </div>
 
@@ -302,8 +323,11 @@
                 <div class="col">
                   {{ project.is_approved }}
                 </div>
-                <div class="col text-end mt-1">
+                <div class="col-1 text-end mt-1">
                 <a class="btn btn-primary" href="{{ url_for('edit_project', project_id=project.id) }}">Edit</a>
+                </div>
+                <div class="col-1 text-end mt-1">
+                <a class="btn btn-danger" href="{{ url_for('delete_project', project_id=project.id) }}">Delete</a>
                 </div>
               </div>
             {% endfor %}

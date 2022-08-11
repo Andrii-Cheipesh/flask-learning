@@ -118,3 +118,16 @@ def edit_project(project_id):
         db.session.commit()
         return redirect(url_for('projects'))
     return render_template('projectedit.html', form=form, project_for_edit=project_for_edit)
+
+
+@app.route('/project/delete/<int:project_id>')
+@login_required
+def delete_project(project_id):
+    project_for_deleting = Project.query.filter_by(id=project_id).first()
+    if project_for_deleting.is_approved and g.user.role.name == 'user':
+        flash('This project has been approved, you cant delete it.')
+        return redirect(url_for('projects'))
+    db.session.delete(project_for_deleting)
+    db.session.commit()
+    flash('Project deleted.')
+    return redirect(url_for('projects'))
