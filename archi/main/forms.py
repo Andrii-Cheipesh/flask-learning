@@ -83,7 +83,7 @@ class ProjectForm(FlaskForm):
 
 class EditProjectForm(FlaskForm):
     name = StringField('Enter the name of the project:',
-                       validators=[Length(max=128)])
+                       validators=[InputRequired(), Length(max=128)])
     category = SelectField('Choose a category of your project:',
                            choices=[('house', 'House'),
                                     ('house reconstruction', 'House reconstruction'),

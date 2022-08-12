@@ -69,3 +69,7 @@ class Project(db.Model):
     @classmethod
     def get_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def get_users_project_by_id(cls, id, user_id):
+        return Project.query.filter_by(id=id, user_id=user_id).first()

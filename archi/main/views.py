@@ -3,7 +3,7 @@ import functools
 from flask import render_template, redirect, url_for, g, session, flash
 from flask import current_app as app
 from archi.main.forms import RegistrationForm, LoginForm, ProjectForm, EditProjectForm
-from ..models import User, Project, Role, db
+from ..models import User, Project, db
 
 
 def login_required(view):
@@ -106,28 +106,32 @@ def add_project():
 @app.route('/project/edit/<int:project_id>', methods=['GET', 'POST'])
 @login_required
 def edit_project(project_id):
-    project_for_edit = Project.query.filter_by(id=project_id).first()
-    form = EditProjectForm(category=project_for_edit.category,
-                           name=project_for_edit.name,
-                           status=project_for_edit.status)
-    if project_for_edit.is_approved and g.user.role.name == 'user':
-        flash('This project has been approved, you cant edit it.')
-        return redirect(url_for('projects'))
-    if form.validate_on_submit():
-        form.populate_obj(project_for_edit)
-        db.session.commit()
-        return redirect(url_for('projects'))
-    return render_template('projectedit.html', form=form, project_for_edit=project_for_edit)
+    project_for_edit = Project.get_users_project_by_id(project_id, g.user.id)
+    if project_for_edit:
+        form = EditProjectForm(obj=project_for_edit)
+        if project_for_edit.is_approved and g.user.role.name == 'user':
+            flash('This project has been approved, you cant edit it.')
+            return redirect(url_for('projects'))
+        if form.validate_on_submit():
+            form.populate_obj(project_for_edit)
+            db.session.commit()
+            return redirect(url_for('projects'))
+        return render_template('projectedit.html', form=form, project_for_edit=project_for_edit)
+    flash('Bad request, 400.')
+    return redirect(url_for('projects'))
 
 
 @app.route('/project/delete/<int:project_id>')
 @login_required
 def delete_project(project_id):
-    project_for_deleting = Project.query.filter_by(id=project_id).first()
-    if project_for_deleting.is_approved and g.user.role.name == 'user':
-        flash('This project has been approved, you cant delete it.')
+    project_for_deleting = Project.get_users_project_by_id(project_id, g.user.id)
+    if project_for_deleting:
+        if project_for_deleting.is_approved and g.user.role.name == 'user':
+            flash('This project has been approved, you cant delete it.')
+            return redirect(url_for('projects'))
+        db.session.delete(project_for_deleting)
+        db.session.commit()
+        flash('Project deleted.')
         return redirect(url_for('projects'))
-    db.session.delete(project_for_deleting)
-    db.session.commit()
-    flash('Project deleted.')
+    flash('Bad request, 400.')
     return redirect(url_for('projects'))
