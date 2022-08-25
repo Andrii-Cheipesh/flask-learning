@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
+from flask import g
+from enum import Enum
 
 db = SQLAlchemy()
 
@@ -71,5 +73,21 @@ class Project(db.Model):
         return cls.query.filter_by(name=name).first()
 
     @classmethod
-    def get_users_project_by_id(cls, id, user_id):
+    def get_project_by_id(cls, id, user_id):
+        if g.user.role.name == 'admin':
+            return Project.query.filter_by(id=id).first()
         return Project.query.filter_by(id=id, user_id=user_id).first()
+
+    @staticmethod
+    def get_sorted_by_status(projects) -> dict:
+        not_approved = [project for project in projects if project.status == 'NotApproved']
+        in_progress = [project for project in projects if project.status == 'InProgress']
+        finished = [project for project in projects if project.status == 'Finished']
+        rejected = [project for project in projects if project.status == 'Rejected']
+
+        return {'not_approved': not_approved, 'in_progress': in_progress, 'finished': finished, 'rejected': rejected}
+
+
+class UserRole(Enum):
+    admin = 'admin'
+    user = 'user'
