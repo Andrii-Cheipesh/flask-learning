@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Creating a project{% endblock %}
+
+{% block body %}
+
+<div class="container" style="height: 95vh">
+    <div class="row py-3 justify-content-center" style="height: 100%">
+        <form class="col-10" method="POST">
+
+            {{ form.hidden_tag() }}
+
+            <div class="container">
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Wow!</strong> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="container formcolor shadow-lg rounded-1 px-4 py-2">
+
+                <div class="row my-1">
+                    <div class="col-sm">
+                        {{ form.name.label }}
+                        {{ form.name(class_="form-control", placeholder="Enter name of a project") }}
+                    </div>
+                    <div class="col-sm">
+                        {{ form.category.label }}
+                        {{ form.category(class_="form-select", placeholder="Choose category") }}
+                    </div>
+                </div>
+
+                <div class="row my-2 justify-content-between">
+                    <div class="col-4">
+                        {{ form.doc_property_rights.label }}<br>
+                        <div class="btn-group col-2" role="group1" aria-label="Basic radio toggle button group" id="1">
+
+                                {% for subfield in form.doc_property_rights %}
+
+                                {% if subfield.id.endswith('0') %}
+                                    {{ subfield(class="btn-check", id="btnradio1", autocomplete="off") }}
+                                    {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio1", style="color: white") }}
+                                {% endif %}
+
+                                {% if subfield.id.endswith('1') %}
+                                    {{ subfield(class="btn-check", id="btnradio2", autocomplete="off") }}
+                                    {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio2", style="color: white") }}
+                                {% endif %}
+
+                                {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-4 text-center justify-content-center">
+                        {{ form.doc_passport.label }}<br>
+                        <div class="btn-group justify-content-center col-2" role="group2" aria-label="Basic radio toggle button group" id="2">
+
+                                {% for subfield in form.doc_passport %}
+
+                                {% if subfield.id.endswith('0') %}
+                                    {{ subfield(class="btn-check", id="btnradio3", autocomplete="off") }}
+                                    {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio3", style="color: white") }}
+                                {% endif %}
+
+                                {% if subfield.id.endswith('1') %}
+                                    {{ subfield(class="btn-check", id="btnradio4", autocomplete="off") }}
+                                    {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio4", style="color: white") }}
+                                {% endif %}
+
+                                {% endfor %}
+                        </div>
+                    </div>
+
+
+                    <div class="col-4 text-end">
+                        {{ form.doc_cadaster.label }} <br>
+                        <div class="btn-group justify-content-end col-2" role="group3" aria-label="Basic radio toggle button group" id="3">
+
+                                {% for subfield in form.doc_cadaster %}
+
+                                {% if subfield.id.endswith('0') %}
+                                    {{ subfield(class="btn-check", id="btnradio5", autocomplete="off") }}
+                                    {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio5", style="color: white") }}
+                                {% endif %}
+
+                                {% if subfield.id.endswith('1') %}
+                                    {{ subfield(class="btn-check", id="btnradio6", autocomplete="off") }}
+                                    {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio6", style="color: white") }}
+                                {% endif %}
+
+                                {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm">
+                        {{ form.user_comment.label }}
+                        {{ form.user_comment(class_="form-control", style="min-height: 15vh", placeholder="Leave a comment here...") }}
+                    </div>
+                </div>
+
+                {% if g.user.role.name == "admin" %}
+
+                <div class="row justify-content-between">
+                    <div class="col-2">
+                        {{ form.price.label }}
+                        {{ form.price(class_="form-control", placeholder="Price...")}}
+                    </div>
+
+                    <div class="col-auto">
+                        {{ form.payments.label }}
+                        {{ form.payments(class_="form-control", placeholder="Payments...") }}
+                    </div>
+
+                    <div class="col-auto">
+                        {{ form.status.label }}
+                        {{ form.status(class_="form-select", placeholder="Status:") }}
+                    </div>
+
+                    <div class="col-auto">
+                        {{ form.designer_name.label }}
+                        {{ form.designer_name(class_="form-select", placeholder="Designer") }}
+                    </div>
+
+                    <div class="col-2 pt-3">
+                        <div class="form-check d-flex justify-content-end align-items-center">
+                        {{ form.is_approved.label }}
+                        {{ form.is_approved(class_="form-check m-1") }}
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %}
+
+                <div class="row">
+                    <div class="col-sm">
+                        {{ form.submit(class_="w-100 btn btn-dark ultradark border-secondary mb-2 mt-4") }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
