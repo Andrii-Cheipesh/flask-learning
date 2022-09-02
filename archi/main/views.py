@@ -1,6 +1,6 @@
 import functools
 
-from flask import render_template, redirect, url_for, g, session, flash
+from flask import render_template, redirect, url_for, g, session, flash, request
 from flask import current_app as app
 from archi.main.forms import RegistrationForm, LoginForm, ProjectForm, EditProjectForm
 from ..models import User, Project, db, UserRole
@@ -70,6 +70,11 @@ def logout():
 @app.route('/projects')
 @login_required
 def projects():
+    not_approved_page = request.args.get('not_approved_page', default=1, type=int)
+    in_progress_page = request.args.get('in_progress_page', default=1, type=int)
+    finished_page = request.args.get('finished_page', default=1, type=int)
+    rejected_page = request.args.get('rejected_page', default=1, type=int)
+
     if g.user.role.name == UserRole.user.name:
         projects = g.user.ordered_projects
     else:
@@ -78,10 +83,10 @@ def projects():
     sorted_projects = Project.get_sorted_by_status(projects)
 
     return render_template('projects.html',
-                           not_approved_list=sorted_projects['not_approved'],
-                           in_progress_list=sorted_projects['in_progress'],
-                           finished_list=sorted_projects['finished'],
-                           rejected_list=sorted_projects['rejected'])
+                           not_approved=sorted_projects['not_approved'].paginate(not_approved_page, 3, True),
+                           in_progress=sorted_projects['in_progress'].paginate(in_progress_page, 3, True),
+                           finished=sorted_projects['finished'].paginate(finished_page, 3, True),
+                           rejected=sorted_projects['rejected'].paginate(rejected_page, 3, True))
 
 
 @app.route('/project/add', methods=['GET', 'POST'])

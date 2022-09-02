@@ -55,7 +55,7 @@
 
 
             </div>
-            {% for project in not_approved_list %}
+            {% for project in not_approved.items %}
               <div class="row">
                 <div class="col border-end">
                   {{ project.name }}
@@ -88,6 +88,21 @@
                 </div>
               </div>
             {% endfor %}
+            <nav aria-label="Page not_approved">
+              <ul class="pagination justify-content-center align-items-end">
+                {% for page in not_approved.iter_pages(left_edge=2, right_edge=2, left_current=1, right_current=1) %}
+                  {% if page == not_approved.page %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+                  {% else %}
+                    {% if page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('projects', not_approved_page=page, in_progress_page=in_progress.page, finished=finished.page, rejeceted=rejected.page) }}">{{ page }}</a></li>
+                    {% else %}
+                      <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
@@ -136,7 +151,7 @@
 
 
             </div>
-            {% for project in in_progress_list %}
+            {% for project in in_progress.items %}
               <div class="row">
                 <div class="col border-end">
                   {{ project.name }}
@@ -169,6 +184,21 @@
                 </div>
               </div>
             {% endfor %}
+            <nav aria-label="Page in_progress">
+              <ul class="pagination justify-content-center align-items-end">
+                {% for page in in_progress.iter_pages(left_edge=2, right_edge=2, left_current=1, right_current=1) %}
+                  {% if page == in_progress.page %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+                  {% else %}
+                    {% if page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('projects', not_approved_page=not_approved.page, in_progress_page=page, finished=finished.page, rejeceted=rejected.page) }}">{{ page }}</a></li>
+                    {% else %}
+                      <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
@@ -217,7 +247,7 @@
 
 
             </div>
-            {% for project in finished_list %}
+            {% for project in finished.items %}
               <div class="row">
                 <div class="col border-end">
                   {{ project.name }}
@@ -250,13 +280,28 @@
                 </div>
               </div>
             {% endfor %}
+            <nav aria-label="Page finished">
+              <ul class="pagination justify-content-center align-items-end">
+                {% for page in finished.iter_pages(left_edge=2, right_edge=2, left_current=1, right_current=1) %}
+                  {% if page == finished.page %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+                  {% else %}
+                    {% if page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('projects', not_approved_page=not_approved.page, in_progress_page=in_progress.page, finished_page=page, rejected_page=rejected.page) }}">{{ page }}</a></li>
+                    {% else %}
+                      <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
     </div>
 </div>
 
-<div class="container">
+<div class="container" style="margin-bottom: 60px">
     <div class="accordion">
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingFour">
@@ -298,7 +343,7 @@
 
 
             </div>
-            {% for project in rejected_list %}
+            {% for project in rejected.items %}
               <div class="row">
                 <div class="col border-end">
                   {{ project.name }}
@@ -331,6 +376,21 @@
                 </div>
               </div>
             {% endfor %}
+            <nav aria-label="Page rejected">
+              <ul class="pagination justify-content-center align-items-end">
+                {% for page in rejected.iter_pages(left_edge=2, right_edge=2, left_current=1, right_current=1) %}
+                  {% if page == rejected.page %}
+                    <li class="page-item active rejected"><a class="page-link" href="#">{{ page }}</a></li>
+                  {% else %}
+                    {% if page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('projects', not_approved_page=not_approved.page, in_progress_page=in_progress.page, finished_page=finished.page, rejected_page=page) }}">{{ page }}</a></li>
+                    {% else %}
+                      <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </nav>
           </div>
         </div>
       </div>

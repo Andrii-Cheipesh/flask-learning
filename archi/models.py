@@ -17,8 +17,8 @@ class User(db.Model):
     sex = db.Column(db.String(32))
     reg_date = db.Column(db.DateTime, default=datetime.datetime.now)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), default=2)
-    ordered_projects = db.relationship("Project", foreign_keys='[Project.user_id]', back_populates='user')
-    performed_projects = db.relationship("Project", foreign_keys='[Project.designer_id]', back_populates='designer')
+    ordered_projects = db.relationship("Project", foreign_keys='[Project.user_id]', back_populates='user', lazy='dynamic')
+    performed_projects = db.relationship("Project", foreign_keys='[Project.designer_id]', back_populates='designer', lazy='dynamic')
 
     @property
     def password(self):
@@ -80,10 +80,10 @@ class Project(db.Model):
 
     @staticmethod
     def get_sorted_by_status(projects) -> dict:
-        not_approved = [project for project in projects if project.status == 'NotApproved']
-        in_progress = [project for project in projects if project.status == 'InProgress']
-        finished = [project for project in projects if project.status == 'Finished']
-        rejected = [project for project in projects if project.status == 'Rejected']
+        not_approved = projects.filter_by(status='NotApproved')
+        in_progress = projects.filter_by(status='InProgress')
+        finished = projects.filter_by(status='Finished')
+        rejected = projects.filter_by(status='Rejected')
 
         return {'not_approved': not_approved, 'in_progress': in_progress, 'finished': finished, 'rejected': rejected}
 
