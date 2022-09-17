@@ -66,3 +66,32 @@ opacity: 0.8;
     box-shadow: 0 0 0 0.2rem rgba(79, 194, 181, 0.43);
 }
 
+.pagination {
+margin: 0px !important;
+margin-top: 30px !important;
+}
+
+.footer {
+  opacity: 1;
+  background-color: rgba(112, 201, 184, 0.45);
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: #61c2a5 !Important;
+    border: solid 1px #4e9c86 !Important;
+}
+
+.imageContainer {
+   position: relative;
+   width: 100%; /* for IE 6 */
+}
+
+h6 {
+   position: absolute;
+   top: 5px;
+   left: 5px;
+   width: 100%;
+   color: gray;
+}

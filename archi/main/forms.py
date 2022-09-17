@@ -1,5 +1,7 @@
 from flask_wtf import FlaskForm
 
+from flask_wtf.file import FileField, FileRequired, FileAllowed, FileSize
+
 from wtforms import (StringField,
                      PasswordField,
                      DateField,
@@ -15,24 +17,33 @@ from wtforms.validators import (Email,
                                 Length,
                                 InputRequired,
                                 NumberRange,
-                                Optional)
+                                Optional,
+                                )
 
 
 class RegistrationForm(FlaskForm):
     name = StringField('Enter your name:', validators=[InputRequired()])
     user_email = EmailField('Please, enter a valid email here:',
-                            validators=[Email()])
+                            validators=[Email(), InputRequired()])
     password = PasswordField('Choose your password:',
                              validators=[Length(min=8,
                                                 max=12,
-                                                message='Password must be from 8 to 12 characters.')])
-    birthday_date = DateField('Your birthday:', format='%d/%m/%Y')
-    sex = RadioField('Sex:', choices=[('male', 'male'), ('female', 'female')])
+                                                message='Password must be from 8 to 12 characters.'),
+                                         InputRequired()])
+    birthday_date = DateField('Your birthday:', format='%d/%m/%Y', validators=[InputRequired()])
+    sex = RadioField('Sex:', choices=[('male', 'male'), ('female', 'female')], validators=[InputRequired()])
+    submit = SubmitField('Submit')
+
+
+class ProfileEditForm(FlaskForm):
+    name = StringField('Enter your name:', validators=[InputRequired()])
+    birthday_date = DateField('Your birthday:', format='%d/%m/%Y', validators=[InputRequired()])
+    sex = RadioField('Sex:', choices=[('male', 'male'), ('female', 'female')], validators=[InputRequired()])
     submit = SubmitField('Submit')
 
 
 class LoginForm(FlaskForm):
-    user_email = EmailField('Email:', validators=[Email()])
+    user_email = EmailField('Email:', validators=[Email(), InputRequired()])
     password = PasswordField('Password:',
                              validators=[InputRequired()])
     submit = SubmitField('Submit')
@@ -72,9 +83,9 @@ class ProjectForm(FlaskForm):
                                   ('Finished', 'Finished'),
                                   ('Rejected', 'Rejected')])
     designer_name = SelectField('Choose a designer:', default='Dzintari',
-                           choices=[('Dzintari', 'Dzintari'),
-                                    ('Slavka', 'Slavka'),
-                                    ('Archi', 'Archi')])
+                                choices=[('Dzintari', 'Dzintari'),
+                                         ('Slavka', 'Slavka'),
+                                         ('Archi', 'Archi')])
 
     is_approved = BooleanField('Approve:')
 
@@ -97,3 +108,9 @@ class EditProjectForm(FlaskForm):
     is_approved = BooleanField('Approve:')
 
     submit = SubmitField('Update a project')
+
+
+class AvatarForm(FlaskForm):
+    photo = FileField(validators=[FileRequired(),
+                                  FileAllowed(['jpg', 'png'], 'Images only!'),
+                                  FileSize(max_size=5000000, message='Too big file')])

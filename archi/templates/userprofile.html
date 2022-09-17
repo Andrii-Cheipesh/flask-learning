@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %} User's page {% endblock %}
+{% block body %}
+
+<div class="container col-6 justify-content-center mt-2">
+  <div class="card mx-auto" style="width: 18rem;">
+    <div class="imageContainer">
+      <h6>Click to choose a photo</h6>
+    <label for="fileField">
+      <img src='{{ url_for('static', filename='avatars') }}/{{ user_info.avatar_path }}' class="card-img-top" alt="avatar">
+    </label>
+    </div>
+    <div class="card-body text-center">
+      <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div>
+          {{ form.photo(type="file", id="fileField", class_="form-control", placeholder="Choose a jpg file.", hidden="true") }}
+          <button type="submit" class="btn btn-outline-dark col-12 bordergray">Click to send a photo</button>
+        </div>
+      </form>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"><b>Name:</b> {{ user_info.name }}</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Number of Projects: {{ user_info.number_of_projects }}</li>
+        <li class="list-group-item">Registration date: {{ user_info.reg_date.date() }}</li>
+        {% if user_info.birthday_date: %}
+        <li class="list-group-item">Birthday date: {{ user_info.birthday_date }}</li>
+        {% else %}
+        <li class="list-group-item">Birthday date: Not specified</li>
+        {% endif %}
+        <li class="list-group-item">Email: {{ user_info.user_email }}</li>
+        <li class="list-group-item">Role: {{ user_info.role }}</li>
+        <li class="list-group-item">Gender: {{ user_info.sex }}</li>
+      </ul>
+      <a href='{{ url_for('edit_profile') }}' class="btn btn-outline-dark mt-3 col-12 bordergray">Edit profile</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

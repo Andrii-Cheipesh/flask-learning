@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Wow!</strong> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        </div>
+
+        <div class="container" style="height: 94vh">
+            <div class="row align-items-center justify-content-center pb-5" style="height: 100%">
+                <div class="col-6 col-sm-6 col-md-4 formcolor shadow-lg rounded-1 px-4 py-2">
+                    <h1 style="text-align:center; color:#2F4F4F">Edit your profile, {{ g.user.name }}</h1>
+                    <div class="row">
+                        <div class="col-sm">
+                            {{ form.name.label }}
+                            {{ form.name(class_="form-control", placeholder="Enter your name") }}
+                        </div>
+                    </div>
+                    <div class="row align-items-end justify-content-between">
+                        <div class="col-auto">
+                            <label class="control-label" for="date">
+                            Birthday:
+                            </label>
+                            {{ form.birthday_date(class="form-control", id="date", placeholder="Day/Month/Year", type="text", autocomplete="off") }}
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            {% for subfield in form.sex %}
+
+                            {% if subfield.id.endswith('0') %}
+                            {{ subfield(class="btn-check", id="btnradio1", autocomplete="off") }}
+                            {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio1", style="color: white") }}
+                            {% endif %}
+
+                            {% if subfield.id.endswith('1') %}
+                            {{ subfield(class="btn-check", id="btnradio3", autocomplete="off") }}
+                            {{ subfield.label(class="btn btn-outline-dark bordergray", for="btnradio3", style="color: white") }}
+                            {% endif %}
+
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col">
+                        {{ form.submit(class_="w-100 btn btn-dark ultradark border-secondary mb-2 mt-4") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+<script>
+    $(document).ready(function(){
+        var date_input=$('input[name="birthday_date"]'); //our date input has the name "date"
+        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+            format: 'dd/mm/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+            changeYear: true,
+            orientation: 'bottom',
+        })
+    })
+</script>
+
+{% endblock %}
