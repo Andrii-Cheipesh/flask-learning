@@ -4,6 +4,8 @@
 
 {% block body %}
 
+<!-- maybe need to get rid of next block -->
+{% if get_flashed_messages() %}
 <div class="container mt-3">
   {% for message in get_flashed_messages() %}
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -12,6 +14,7 @@
   </div>
   {% endfor %}
 </div>
+{% endif %}
 
 <div class="container mt-5">
     <div class="accordion">
@@ -69,7 +72,7 @@
 
                 {% if g.user.role.name == 'admin' %}
                 <div class="col border-end">
-                  {{ project.user.name }}
+                  <a href='{{ url_for('users', user_id=project.user.id) }}'>{{ project.user.name }}</a>
                 </div>
                 {% else %}
                 <div class="col border-end">
@@ -165,7 +168,7 @@
 
                 {% if g.user.role.name == 'admin' %}
                 <div class="col border-end">
-                  {{ project.user.name }}
+                  <a href='{{ url_for('users', user_id=project.user.id) }}'>{{ project.user.name }}</a>
                 </div>
                 {% else %}
                 <div class="col border-end">
@@ -261,7 +264,7 @@
 
                 {% if g.user.role.name == 'admin' %}
                 <div class="col border-end">
-                  {{ project.user.name }}
+                  <a href='{{ url_for('users', user_id=project.user.id) }}'>{{ project.user.name }}</a>
                 </div>
                 {% else %}
                 <div class="col border-end">
@@ -357,7 +360,7 @@
 
                 {% if g.user.role.name == 'admin' %}
                 <div class="col border-end">
-                  {{ project.user.name }}
+                  <a href='{{ url_for('users', user_id=project.user.id) }}'>{{ project.user.name }}</a>
                 </div>
                 {% else %}
                 <div class="col border-end">

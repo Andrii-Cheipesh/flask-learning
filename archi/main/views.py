@@ -1,9 +1,11 @@
 import functools
+import os.path
 
 from flask import render_template, redirect, url_for, g, session, flash, request
 from flask import current_app as app
-from archi.main.forms import RegistrationForm, LoginForm, ProjectForm, EditProjectForm
+from archi.main.forms import RegistrationForm, LoginForm, ProjectForm, EditProjectForm, AvatarForm, ProfileEditForm
 from ..models import User, Project, db, UserRole
+from werkzeug.utils import secure_filename
 
 
 def login_required(view):
@@ -65,6 +67,47 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+
+@app.route('/users/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def users(user_id):
+    if g.user.id == user_id:
+        form = AvatarForm()
+        if form.validate_on_submit():
+            file = form.photo.data
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+            g.user.avatar_path = filename
+            db.session.commit()
+
+            file.save(file_path)
+            return redirect(url_for('users', user_id=user_id))
+        user_info = g.user.get_info()
+        return render_template('userprofile.html', user_info=user_info, form=form)
+
+    user = User.query.filter_by(id=user_id).first()
+    if user:
+        user_info = user.get_info()
+    else:
+        flash('No such user exists.')
+        return render_template('user.html')
+
+    return render_template('user.html', user_info=user_info)
+
+
+@app.route('/profile/edit', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    user_for_edit = g.user
+    form = ProfileEditForm(obj=user_for_edit)
+
+    if form.validate_on_submit():
+        form.populate_obj(user_for_edit)
+        db.session.commit()
+        return redirect(url_for('users', user_id=g.user.id))
+    return render_template('useredit.html', form=form)
 
 
 @app.route('/projects')

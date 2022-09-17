@@ -82,3 +82,16 @@ margin-top: 30px !important;
     background-color: #61c2a5 !Important;
     border: solid 1px #4e9c86 !Important;
 }
+
+.imageContainer {
+   position: relative;
+   width: 100%; /* for IE 6 */
+}
+
+h6 {
+   position: absolute;
+   top: 5px;
+   left: 5px;
+   width: 100%;
+   color: gray;
+}

@@ -1,6 +1,6 @@
 import os.path
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+basedir = os.path.dirname(os.path.abspath(__file__))
 
 
 class Config:
@@ -12,6 +12,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+    UPLOAD_FOLDER = r'C:\Users\Imbir\PycharmProjects\flask-learning\archi\static\avatars'
 
 
 class TestingConfig(Config):
