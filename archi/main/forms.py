@@ -113,4 +113,4 @@ class EditProjectForm(FlaskForm):
 class AvatarForm(FlaskForm):
     photo = FileField(validators=[FileRequired(),
                                   FileAllowed(['jpg', 'png'], 'Images only!'),
-                                  FileSize(max_size=5000000, message='Too big file')])
+                                  FileSize(max_size=5000000, message='Too big file.')])

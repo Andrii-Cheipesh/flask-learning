@@ -17,7 +17,7 @@ class User(db.Model):
     sex = db.Column(db.String(32))
     reg_date = db.Column(db.DateTime, default=datetime.datetime.now)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), default=2)
-    avatar_path = db.Column(db.String, default=r'1.png')
+    avatar_path = db.Column(db.String, default='1.png')
     ordered_projects = db.relationship("Project", foreign_keys='[Project.user_id]', back_populates='user', lazy='dynamic')
     performed_projects = db.relationship("Project", foreign_keys='[Project.designer_id]', back_populates='designer', lazy='dynamic')
 
