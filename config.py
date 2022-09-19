@@ -12,12 +12,12 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
-    UPLOAD_FOLDER = r'C:\Users\Imbir\PycharmProjects\flask-learning\archi\static\avatars'
+    UPLOAD_FOLDER = os.path.join(basedir, 'archi', 'static', 'avatars')
 
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI') or 'sqlite://'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI') or 'sqlite:///'
 
 
 class ProductionConfig(Config):
