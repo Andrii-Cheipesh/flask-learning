@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
 from flask import g
 from enum import Enum
+import os
 
 db = SQLAlchemy()
 
@@ -11,13 +12,13 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
-    user_email = db.Column(db.String(64))
+    user_email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128))
     birthday_date = db.Column(db.Date)
     sex = db.Column(db.String(32))
     reg_date = db.Column(db.DateTime, default=datetime.datetime.now)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), default=2)
-    avatar_path = db.Column(db.String, default='1.png')
+    _avatar_path = db.Column(db.String, default='1.png')
     ordered_projects = db.relationship("Project", foreign_keys='[Project.user_id]', back_populates='user', lazy='dynamic')
     performed_projects = db.relationship("Project", foreign_keys='[Project.designer_id]', back_populates='designer', lazy='dynamic')
 
@@ -28,6 +29,17 @@ class User(db.Model):
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
+
+    @property
+    def avatar_path(self):
+        if not os.path.isfile(os.path.join(os.getcwd(), 'archi', 'static', 'avatars', self._avatar_path)):
+            self._avatar_path = '1.png'
+            db.session.commit()
+        return self._avatar_path
+
+    @avatar_path.setter
+    def avatar_path(self, path):
+        self._avatar_path = path
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -54,6 +66,7 @@ class User(db.Model):
             'avatar_path': self.avatar_path
         }
         return user_info
+
 
 
 class Role(db.Model):
