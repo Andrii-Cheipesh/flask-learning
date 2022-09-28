@@ -16,16 +16,37 @@ def app():
 
 
 @pytest.fixture(scope='module')
-def new_project(app):
-    project = Project(user_id=1,
-                      designer_id=1,
-                      name='Project_for_testing number 1',
-                      user_comment='Project_comment number 1'
-                      )
-    db.session.add(project)
+def projects_mockup(app) -> dict:
+    project_1 = Project(user_id=1,
+                        designer_id=1,
+                        name='Project_for_testing number 1',
+                        user_comment='Project_comment number 1'
+                        )
+    project_2 = Project(user_id=2,
+                        designer_id=1,
+                        name='Project_for_testing number 2',
+                        user_comment='Project_comment number 2'
+                        )
+    project_3 = Project(user_id=1,
+                        designer_id=1,
+                        name='Project_for_testing number 3',
+                        user_comment='Project_comment number 3'
+                        )
+    project_4 = Project(user_id=1,
+                        designer_id=1,
+                        name='Project_for_testing number 4',
+                        user_comment='Project_comment number 4',
+                        category='house'
+                        )
+    projects = {'project_1': project_1,
+                'project_2': project_2,
+                'project_3': project_3,
+                'project_4': project_4}
+
+    db.session.add_all([project_1, project_2, project_3, project_4])
     db.session.commit()
 
-    return project
+    return projects
 
 
 @pytest.fixture(scope='function')

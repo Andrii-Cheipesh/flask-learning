@@ -98,7 +98,7 @@
                     <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
                   {% else %}
                     {% if page %}
-                <li class="page-item"><a class="page-link" href="{{ url_for('projects', not_approved_page=page, in_progress_page=in_progress.page, finished=finished.page, rejeceted=rejected.page) }}">{{ page }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ url_for('projects', not_approved_page=page, in_progress_page=in_progress.page, finished=finished.page, rejected=rejected.page) }}">{{ page }}</a></li>
                     {% else %}
                       <li class="page-item"><a class="page-link" href="#">...</a></li>
                     {% endif %}
@@ -194,7 +194,7 @@
                     <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
                   {% else %}
                     {% if page %}
-                <li class="page-item"><a class="page-link" href="{{ url_for('projects', not_approved_page=not_approved.page, in_progress_page=page, finished=finished.page, rejeceted=rejected.page) }}">{{ page }}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ url_for('projects', not_approved_page=not_approved.page, in_progress_page=page, finished=finished.page, rejected=rejected.page) }}">{{ page }}</a></li>
                     {% else %}
                       <li class="page-item"><a class="page-link" href="#">...</a></li>
                     {% endif %}

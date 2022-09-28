@@ -53,10 +53,10 @@ class ProjectForm(FlaskForm):
     name = StringField('Enter the name of the project (it will be changed after agreement):',
                        validators=[InputRequired(), Length(max=128)])
     category = SelectField('Choose a category of your project:',
-                           choices=[('house', 'House'),
-                                    ('house reconstruction', 'House reconstruction'),
-                                    ('commercial building', 'Commercial building'),
-                                    ('commercial reconstruction', 'Commercial reconstruction')])
+                           choices=[('House', 'House'),
+                                    ('House reconstruction', 'House reconstruction'),
+                                    ('Commercial building', 'Commercial building'),
+                                    ('Commercial reconstruction', 'Commercial reconstruction')])
     doc_property_rights = RadioField('Documents confirming ownership?',
                                      coerce=int,
                                      choices=[(1, 'Yes'), (0, 'No')],
@@ -96,10 +96,10 @@ class EditProjectForm(FlaskForm):
     name = StringField('Enter the name of the project:',
                        validators=[InputRequired(), Length(max=128)])
     category = SelectField('Choose a category of your project:',
-                           choices=[('house', 'House'),
-                                    ('house reconstruction', 'House reconstruction'),
-                                    ('commercial building', 'Commercial building'),
-                                    ('commercial reconstruction', 'Commercial reconstruction')])
+                           choices=[('House', 'House'),
+                                    ('House reconstruction', 'House reconstruction'),
+                                    ('Commercial building', 'Commercial building'),
+                                    ('Commercial reconstruction', 'Commercial reconstruction')])
     status = SelectField('Choose a status (NotApproved by default): ',
                          choices=[('NotApproved', 'NotApproved'),
                                   ('InProgress', 'InProgress'),

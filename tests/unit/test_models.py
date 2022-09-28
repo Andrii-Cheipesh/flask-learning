@@ -7,8 +7,7 @@ import os
 from archi.models import User, Project, db
 
 
-def test_creation_new_user(app, new_project):
-    # GIVEN WHEN THEN
+def test_creation_new_user(app, projects_mockup):
     user_positive = User(name='Slavka',
                          user_email='slavka@gmail.com',
                          password='123123123pass',
@@ -21,7 +20,6 @@ def test_creation_new_user(app, new_project):
     assert user_positive.name == 'Slavka'
     assert user_positive.user_email == 'slavka@gmail.com'
     assert user_positive.role_id == 2
-
     """user_positive_test.id not 1, because first user
     is automatically created when app is started (__init__.py of archi module)"""
     assert user_positive.id == 2
@@ -29,8 +27,8 @@ def test_creation_new_user(app, new_project):
     assert user_positive.avatar_path == '2.png'
     assert not user_positive.avatar_path == '1.png'
 
-    new_project.user_id = user_positive.id
-    assert user_positive.ordered_projects.first().id == 1
+    projects_mockup['project_2'].user_id = user_positive.id
+    assert user_positive.ordered_projects.first().id == 2
 
     with pytest.raises(AttributeError, match='password is not readable attribute'):
         user_positive.password
@@ -46,10 +44,10 @@ def test_creation_new_user(app, new_project):
     assert user_positive.get_info()['number_of_projects'] == 1
 
 
-def test_creating_new_user_negative(app, new_project):
+def test_creating_new_user_negative(app):
     user_negative_1 = User(name='Dzintari',
-                         user_email='positive_email@gmail.com',
-                         password='123123123pass'
+                           user_email='positive_email@gmail.com',
+                           password='123123123pass'
                            )
 
     with pytest.raises(IntegrityError, match='UNIQUE constraint failed: users.name'):
