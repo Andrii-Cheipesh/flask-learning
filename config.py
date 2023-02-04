@@ -25,11 +25,14 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or os.path.join(basedir, 'data.sqlite')
 
+class TestPostConfig(Config):
+    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:2611@localhost:5432/flaskDB"
 
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
+    'testPost': TestPostConfig,
 
     'default': DevelopmentConfig
     }

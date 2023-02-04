@@ -156,3 +156,7 @@ cython_debug/
 
 #SQLite db
 *.sqlite
+
+*Dockerfile
+
+*/static/avatars/
