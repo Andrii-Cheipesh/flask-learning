@@ -2,6 +2,23 @@
 {% block title %} User's page {% endblock %}
 {% block body %}
 
+<div class="container mt-2">
+  {% for field, error in form.errors.items() %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Sorry, </strong> {{ error[0] }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+</div>
+<div class="container mt-4">
+  {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Wow!</strong> {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+</div>
+
 <div class="container col-6 justify-content-center mt-2">
   <div class="card mx-auto" style="width: 18rem;">
     <div class="imageContainer">
@@ -24,7 +41,7 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Number of Projects: {{ user_info['number_of_projects'] }}</li>
         <li class="list-group-item">Registration date: {{ user_info['reg_date'].strftime("%d-%m-%Y") }}</li>
-        {% if user_info.birthday_date: %}
+        {% if user_info['birthday_date']: %}
         <li class="list-group-item">Birthday date: {{ user_info['birthday_date'].strftime("%d-%m-%Y") }}</li>
         {% else %}
         <li class="list-group-item">Birthday date: Not specified</li>

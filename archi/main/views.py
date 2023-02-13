@@ -12,6 +12,7 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
+            flash('Login required for this functionality.')
             return redirect(url_for('login'))
 
         return view(**kwargs)
@@ -35,6 +36,9 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if g.user is not None:
+        flash('You already have an account.')
+        return redirect(url_for('users', user_id=g.user.id))
     form = RegistrationForm()
     if form.validate_on_submit():
         if not User.get_user_by_name(form.name.data) and not User.get_user_by_email(form.user_email.data):

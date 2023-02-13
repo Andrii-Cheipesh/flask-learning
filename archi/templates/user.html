@@ -19,7 +19,7 @@
       <h5 class="card-title"><b>Name:</b> {{ user_info['name'] }}</h5>
       <li class="list-group-item">Number of Projects: {{ user_info['number_of_projects'] }}</li>
       <li class="list-group-item">Registration date: {{ user_info['reg_date'].strftime("%d-%m-%Y") }}</li>
-      {% if user_info.birthday_date: %}
+      {% if user_info['birthday_date']: %}
       <li class="list-group-item">Birthday date: {{ user_info['birthday_date'].strftime("%d-%m-%Y") }}</li>
       {% else %}
       <li class="list-group-item">Birthday date: Not specified</li>
