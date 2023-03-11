@@ -71,3 +71,5 @@ class AuthActions(object):
 @pytest.fixture(scope='function')
 def auth(client):
     return AuthActions(client)
+
+    #test for github
